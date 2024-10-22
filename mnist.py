@@ -1,12 +1,11 @@
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-import tkinter as tk
-from PIL import Image, ImageDraw
+import matplotlib.pyplot as plt
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Define the neural network
 class Net(nn.Module):
@@ -83,11 +82,19 @@ def main():
     train_loader, test_loader = load_data()
     model = Net()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
+    X = range(1, 11)
+    Y = []
     for epoch in range(1, 11):
         train(model, train_loader, optimizer)
         test_loss, accuracy = test(model, test_loader)
         print(f'Epoch {epoch}: Test loss: {test_loss}, Accuracy: {accuracy}')
+        Y.append(accuracy)
     model.save('model.pth')
+    plt.plot(X, Y)
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.title('Training Accuracy')
+    plt.show()
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,5 @@
 import torch
 from PIL import Image, ImageDraw
-import numpy as np
 import tkinter as tk
 import torch.nn as nn
 import torch.nn.functional as F
